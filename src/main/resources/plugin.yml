@@ -1,0 +1,8 @@
+name: MineGit
+version: '${project.version}'
+main: com.darksky.minegit.MineGit
+api-version: '1.20'
+commands:
+  git:
+    description: MineGit
+    usage: /git <repo> <option>
