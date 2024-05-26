@@ -100,6 +100,7 @@ public class RepoInstance implements ConfigurationSerializable {
     }
     public void setInitialized(boolean val) { initialized = val; }
     public void setRunTask(boolean val) { runTask = val; }
+    public boolean isRunTask() { return runTask; }
     public List<String> getExecuteConfigs() {
         List<String> info = new ArrayList<>();
         info.add(remoteUrl);

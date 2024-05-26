@@ -73,6 +73,32 @@ public class CommandBindExecutor implements CommandExecutor {
                                 commandSender.sendMessage(langMap.get("command.pull.run") + target.getName());
                             }
                             break;
+                        case "reload":
+                            boolean noRunning = true;
+                            for (RepoInstance repo : repoInstances) {
+                                if (repo.isRunTask()) {
+                                    noRunning = false;
+                                    break;
+                                }
+                            }
+                            if (noRunning) {
+                                commandSender.sendMessage(langMap.get("command.reload.tip.1"));
+                                commandSender.sendMessage(langMap.get("command.reload.tip.2"));
+                                if (!javaPlugin.updateRepos()) {
+                                    commandSender.sendMessage(langMap.get("command.reload.fail"));
+                                } else {
+                                    repoInstances = javaPlugin.getRepos();
+                                    ArrayList<String> tabRepos = new ArrayList<>();
+                                    for (RepoInstance repo : repoInstances) {
+                                        tabRepos.add(repo.getName());
+                                    }
+                                    javaPlugin.getTabCompleter().updateExistRepos(tabRepos);
+                                    commandSender.sendMessage(langMap.get("command.reload.success"));
+                                }
+                            } else {
+                                commandSender.sendMessage(langMap.get("command.reload.forbid"));
+                            }
+                            break;
                         default:
                             commandSender.sendMessage(langMap.get("command.unknown_option") + strings[1]);
                             break;

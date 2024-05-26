@@ -11,13 +11,15 @@ import java.util.List;
 
 public class CommandBindTab implements TabCompleter {
 
-    private final List<String> existRepos, secondTab;
+    private List<String> existRepos;
+    private final List<String> secondTab;
     public CommandBindTab(List<String> existRepos) {
         this.existRepos = existRepos;
         secondTab = new ArrayList<>();
         secondTab.add("info");
         secondTab.add("init");
         secondTab.add("pull");
+        secondTab.add("reload");
     }
 
     @Override
@@ -30,5 +32,9 @@ public class CommandBindTab implements TabCompleter {
         } else {
             return null;
         }
+    }
+
+    public void updateExistRepos(List<String> stringList) {
+        existRepos = stringList;
     }
 }

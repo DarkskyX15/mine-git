@@ -19,6 +19,7 @@ public final class MineGit extends JavaPlugin {
     private final YamlConfiguration configuration;
     private HashMap<String, String> currentLanguageMap;
     private PluginCommand pluginCommand;
+    private CommandBindTab tabCompleter;
     public String gitPrefix;
 
     public MineGit() {
@@ -27,6 +28,7 @@ public final class MineGit extends JavaPlugin {
         configuration = new YamlConfiguration();
         repoInstances = new ArrayList<>();
         pluginCommand = null;
+        tabCompleter = null;
         ConfigurationSerialization.registerClass(RepoInstance.class);
 
         // Config default
@@ -85,7 +87,7 @@ public final class MineGit extends JavaPlugin {
                 }
             }
         } catch (NullPointerException | ClassCastException e) {
-            serverLogger.warning("Can NOT get Repo instances from config!");
+            serverLogger.warning("Can not get Repo instances from config!");
         }
 
         StringBuilder foundRepos = new StringBuilder("Repo instances:");
@@ -96,8 +98,9 @@ public final class MineGit extends JavaPlugin {
         }
         serverLogger.info(foundRepos.toString());
 
+        tabCompleter = new CommandBindTab(existRepos);
         pluginCommand.setExecutor(new CommandBindExecutor(this));
-        pluginCommand.setTabCompleter(new CommandBindTab(existRepos));
+        pluginCommand.setTabCompleter(tabCompleter);
 
         serverLogger.info("Finished!");
     }
@@ -121,4 +124,33 @@ public final class MineGit extends JavaPlugin {
     public ArrayList<RepoInstance> getRepos() {
         return repoInstances;
     }
+    public boolean updateRepos() {
+        try {
+            configuration.load(configPath);
+        } catch (IOException | InvalidConfigurationException e) {
+            serverLogger.warning("Can not reload config file!");
+            return false;
+        }
+        try {
+            ArrayList<RepoInstance> newRepos = new ArrayList<>();
+            List<?> rawRepos = Objects.requireNonNull(configuration.getList("repos"));
+            for (Object obj : rawRepos) {
+                if (obj instanceof RepoInstance) {
+                    newRepos.add((RepoInstance) obj);
+                }
+            }
+            repoInstances = newRepos;
+        } catch (NullPointerException | ClassCastException e) {
+            serverLogger.warning("Can not load Repo instances from config!");
+            return false;
+        }
+        serverLogger.info("Config reload success!");
+        StringBuilder foundRepos = new StringBuilder("Found repos:");
+        for (RepoInstance repo : repoInstances) {
+            foundRepos.append(' ').append(repo.getName());
+        }
+        serverLogger.info(foundRepos.toString());
+        return true;
+    }
+    public CommandBindTab getTabCompleter() { return tabCompleter; }
 }

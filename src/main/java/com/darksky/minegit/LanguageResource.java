@@ -37,6 +37,13 @@ public class LanguageResource {
         zh_CN.put("command.pull.not_init", ChatColor.RED + "需要先初始化该仓库实例！");
         zh_CN.put("pull.no_conflict", ChatColor.GRAY + "无冲突。");
         zh_CN.put("pull.conflicts", ChatColor.YELLOW + "存在冲突：");
+        zh_CN.put("command.reload.fail", ChatColor.RED + "重新加载配置文件失败，详见控制台。");
+        zh_CN.put("command.reload.success", ChatColor.GREEN + "重新加载配置文件成功！");
+        zh_CN.put("command.reload.forbid", ChatColor.RED + "仍有仓库实例正进行任务，暂不能重新加载！");
+        zh_CN.put("command.reload.tip.1", ChatColor.YELLOW +
+                "该命令将从配置文件中重新读取所有仓库实例，目前为止对实例的所有更改将被覆盖！");
+        zh_CN.put("command.reload.tip.2", ChatColor.YELLOW +
+                "注意：请不要使用/reload来重载配置文件，这样做将会导致jGit无法正常运行！");
         resource.put("zh_CN", zh_CN);
 
         // en_US
@@ -67,6 +74,16 @@ public class LanguageResource {
         en_US.put("command.pull.not_init", ChatColor.RED + "You need to init this repo instance first!");
         en_US.put("pull.no_conflict", ChatColor.GRAY + "No conflicts.");
         en_US.put("pull.conflicts", ChatColor.YELLOW + "Found conflicts:");
+        en_US.put("command.reload.fail", ChatColor.RED + "Config reload failed, see more information in console!");
+        en_US.put("command.reload.success", ChatColor.GREEN + "Successfully reload config file!");
+        en_US.put("command.reload.forbid", ChatColor.RED +
+                "Some Repo instances are still running tasks, that reload is forbidden at present");
+        en_US.put("command.reload.tip.1", ChatColor.YELLOW +
+                "This command will reload ALL Repo instances from config file, " +
+                "changes applied on Repos so far will be discarded");
+        en_US.put("command.reload.tip.2", ChatColor.YELLOW +
+                "ATTENTION：Please DO NOT use /reload to reload config file, " +
+                "this will make jGit unable to work normally!");
         resource.put("en_US", en_US);
     }
 
